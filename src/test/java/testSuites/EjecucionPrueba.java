@@ -2,6 +2,7 @@ package testSuites;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import testClasses.BusquedaAnimales;
@@ -13,15 +14,21 @@ public class EjecucionPrueba {
 
 
     @BeforeTest
-    public void setUp(){
+    public void setUp() {
         System.setProperty("webdriver.chrome.driver", "driverNavegador/chromedriver.exe");
         webDriver = new ChromeDriver();
         webDriver.get(URL);
     }
 
-    @Test
-    public void BuscarPerroEnGoogle(){
-        BusquedaAnimales busquedaAnimales = new BusquedaAnimales(webDriver);
-        busquedaAnimales.buscarPerro(webDriver);
+    @AfterTest
+    void TearDown() {
+        //webDriver.quit();
     }
+
+    @Test
+    public void BuscarPerroEnGoogle() {
+        BusquedaAnimales busquedaAnimales = new BusquedaAnimales(webDriver);
+        busquedaAnimales.buscarPerro();
+    }
+
 }
