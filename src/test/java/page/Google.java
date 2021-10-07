@@ -23,7 +23,7 @@ public class Google {
 
     public void ingresarBusqueda(String animal) {
         inputBuscar.sendKeys(animal);
-        System.out.println("Buscamos un " + animal);
+        System.out.println("Buscamos un '" + animal + "'");
     }
 
     public void clickBtnBuscar() {

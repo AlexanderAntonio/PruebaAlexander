@@ -1,6 +1,7 @@
 package testClasses;
 
 import org.openqa.selenium.WebDriver;
+import page.Busqueda;
 import page.Google;
 
 public class BusquedaAnimales {
@@ -16,4 +17,5 @@ public class BusquedaAnimales {
         google.ingresarBusqueda("Perro");
         google.clickBtnBuscar();
     }
+
 }
