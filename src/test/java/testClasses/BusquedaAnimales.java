@@ -18,4 +18,15 @@ public class BusquedaAnimales {
         google.clickBtnBuscar();
     }
 
+    public void recuperarDatosBusquedaPerro(){
+        Google google = new Google(webDriver);
+        google.validarDespliegue();
+        google.ingresarBusqueda("Perro");
+        google.clickBtnBuscar();
+        Busqueda busqueda = new Busqueda(webDriver);
+        busqueda.validarTituloUrl();
+        busqueda.extraerTexto();
+        busqueda.extraerUrl();
+    }
+
 }

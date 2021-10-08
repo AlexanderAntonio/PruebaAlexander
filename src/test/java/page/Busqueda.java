@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class Busqueda {
@@ -14,19 +16,31 @@ public class Busqueda {
     @FindBy(xpath = "(//a[@href= 'https://es.wikipedia.org/wiki/Canis_familiaris'])")
     private WebElement urlBusqueda;
 
+
+    @FindBy(xpath = "(//div[@class = 'yuRUbf'])[1]//h3")
+    private WebElement titulo;
+
+    @FindBy(xpath = "((//div[@class = 'yuRUbf'])[1]//a)[1]")
+    private WebElement url;
+
     WebDriver webDriver;
+    WebDriverWait webDriverWait;
 
     public Busqueda(WebDriver webDriver) {
         this.webDriver = webDriver;
         PageFactory.initElements(webDriver, this);
+        webDriverWait = new WebDriverWait(webDriver, 30);
+    }
+    public void validarTituloUrl(){
+        webDriverWait.until(ExpectedConditions.visibilityOf(titulo));
+        webDriverWait.until(ExpectedConditions.visibilityOf(url));
     }
 
     public void extraerTexto(){
-        System.out.println("El texto es '" + enlace.getText()+"'");
+        System.out.println("El texto es '" + titulo.getText()+"'");
     }
-    public void clickEnlace() {
-        enlace.click();
-        System.out.println("La URL es '" + webDriver.getCurrentUrl()+"'");
+    public void extraerUrl() {
+        System.out.println("La URL es '" + url.getAttribute("href") +"'");
     }
 
 }
