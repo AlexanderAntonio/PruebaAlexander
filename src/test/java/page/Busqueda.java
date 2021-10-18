@@ -6,6 +6,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.DriverContext;
+import utils.Reporte.EstadoPrueba;
+import utils.Reporte.PdfQaNovaReports;
 
 
 public class Busqueda {
@@ -23,17 +26,18 @@ public class Busqueda {
     @FindBy(xpath = "((//div[@class = 'yuRUbf'])[1]//a)[1]")
     private WebElement url;
 
-    WebDriver webDriver;
+
     WebDriverWait webDriverWait;
 
-    public Busqueda(WebDriver webDriver) {
-        this.webDriver = webDriver;
-        PageFactory.initElements(webDriver, this);
-        webDriverWait = new WebDriverWait(webDriver, 30);
+    public Busqueda() {
+
+        PageFactory.initElements(DriverContext.getDriver(), this);
+        webDriverWait = new WebDriverWait(DriverContext.getDriver(), 30);
     }
     public void validarTituloUrl(){
         webDriverWait.until(ExpectedConditions.visibilityOf(titulo));
         webDriverWait.until(ExpectedConditions.visibilityOf(url));
+        PdfQaNovaReports.addWebReportImage("Despliegue de la busqueda","Se realiza la busqueda", EstadoPrueba.PASSED,false);
     }
 
     public void extraerTexto(){

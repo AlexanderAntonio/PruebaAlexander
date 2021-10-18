@@ -6,35 +6,52 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import testClasses.BusquedaAnimales;
+import testClasses.IngresarQAnova;
+import utils.Constants.Navegador;
+import utils.DriverContext;
+import utils.Reporte.PdfQaNovaReports;
+
+import java.text.ParseException;
 
 public class EjecucionPrueba {
 
-    private WebDriver webDriver;
+
     private String URL = "https://www.google.com/";
+    private String URL2 = "http://qanovagroup.com/piloto/";
 
     @BeforeTest
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "driverNavegador/chromedriver.exe");
-        webDriver = new ChromeDriver();
-        webDriver.get(URL);
+        DriverContext.setUp(Navegador.Chrome, URL2);
+        PdfQaNovaReports.createPDF();
     }
 
     @AfterTest
     void TearDown() {
-        //webDriver.quit();
+        DriverContext.closeDriver();
     }
 
 
     @Test
     public void BuscarPerroEnGoogle() {
-        BusquedaAnimales busquedaAnimales = new BusquedaAnimales(webDriver);
+        BusquedaAnimales busquedaAnimales = new BusquedaAnimales();
         busquedaAnimales.buscarPerro();
     }
 
     @Test
     public void busquedaPerro(){
-        BusquedaAnimales busquedaAnimales = new BusquedaAnimales(webDriver);
+        BusquedaAnimales busquedaAnimales = new BusquedaAnimales();
         busquedaAnimales.recuperarDatosBusquedaPerro();
+        PdfQaNovaReports.closePDF();
+    }
+
+    @Test
+    public void iniciarQanova() throws InterruptedException, ParseException {
+        IngresarQAnova ingresarQAnova = new IngresarQAnova();
+        ingresarQAnova.iniciarSesion();
+        ingresarQAnova.llenarFormulario();
+        PdfQaNovaReports.closePDF();
+        //ingresarQAnova.Filtrar();
+
     }
 
 }
