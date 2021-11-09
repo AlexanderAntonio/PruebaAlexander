@@ -1,14 +1,13 @@
 package testSuites;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import testClasses.BusquedaAnimales;
-import testClasses.IngresarQAnova;
+import testClasses.IngresarQaNova;
 import utils.Constants.Navegador;
 import utils.DriverContext;
+import utils.ReadProperties;
 import utils.Reporte.PdfQaNovaReports;
 
 import java.text.ParseException;
@@ -45,12 +44,53 @@ public class EjecucionPrueba {
     }
 
     @Test
-    public void iniciarQanova() throws InterruptedException, ParseException {
-        IngresarQAnova ingresarQAnova = new IngresarQAnova();
-        ingresarQAnova.iniciarSesion();
+    public void iniciarQanova() throws ParseException {
+        IngresarQaNova ingresarQAnova = new IngresarQaNova();
+        String usuario = ReadProperties.readFromConfig("propiedades.properties").getProperty("usuario");
+        String clave = ReadProperties.readFromConfig("propiedades.properties").getProperty("clave");
+        ingresarQAnova.iniciarSesion(usuario,clave);
+
         ingresarQAnova.llenarFormulario();
         PdfQaNovaReports.closePDF();
-        //ingresarQAnova.Filtrar();
+
+    }
+
+    @Test public void valdiarTextos(){
+        IngresarQaNova ingresarQAnova = new IngresarQaNova();
+        String usuario = ReadProperties.readFromConfig("propiedades.properties").getProperty("usuario");
+        String clave = ReadProperties.readFromConfig("propiedades.properties").getProperty("clave");
+        ingresarQAnova.iniciarSesion(usuario,clave);
+        ingresarQAnova.validacionDeTextos();
+        PdfQaNovaReports.closePDF();
+    }
+    @Test public void valdarMatriz() throws InterruptedException {
+        IngresarQaNova ingresarQAnova = new IngresarQaNova();
+        String usuario = ReadProperties.readFromConfig("propiedades.properties").getProperty("usuario");
+        String clave = ReadProperties.readFromConfig("propiedades.properties").getProperty("clave");
+        ingresarQAnova.iniciarSesion(usuario,clave);
+        ingresarQAnova.filtrar();
+        PdfQaNovaReports.closePDF();
+
+    }
+
+    @Test public void validarDescargaQaNova() throws InterruptedException {
+        IngresarQaNova ingresarQAnova = new IngresarQaNova();
+        String usuario = ReadProperties.readFromConfig("propiedades.properties").getProperty("usuario");
+        String clave = ReadProperties.readFromConfig("propiedades.properties").getProperty("clave");
+        String rutaDescarga = ReadProperties.readFromConfig("propiedades.properties").getProperty("rutaDescarga");
+        ingresarQAnova.iniciarSesion(usuario,clave);
+        ingresarQAnova.descarga(rutaDescarga);
+        PdfQaNovaReports.closePDF();
+    }
+
+    @Test public void validarCargaQaNova() throws InterruptedException {
+        IngresarQaNova ingresarQAnova = new IngresarQaNova();
+        String usuario = ReadProperties.readFromConfig("propiedades.properties").getProperty("usuario");
+        String clave = ReadProperties.readFromConfig("propiedades.properties").getProperty("clave");
+        String rutaCarga = ReadProperties.readFromConfig("propiedades.properties").getProperty("rutaCarga");
+        ingresarQAnova.iniciarSesion(usuario,clave);
+        ingresarQAnova.carga(rutaCarga);
+        PdfQaNovaReports.closePDF();
 
     }
 

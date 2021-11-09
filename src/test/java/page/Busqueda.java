@@ -15,14 +15,10 @@ public class Busqueda {
 
     @FindBy(xpath = "(//h3[@class= 'LC20lb DKV0Md'])")
     private WebElement enlace;
-
     @FindBy(xpath = "(//a[@href= 'https://es.wikipedia.org/wiki/Canis_familiaris'])")
     private WebElement urlBusqueda;
-
-
     @FindBy(xpath = "(//div[@class = 'yuRUbf'])[1]//h3")
     private WebElement titulo;
-
     @FindBy(xpath = "((//div[@class = 'yuRUbf'])[1]//a)[1]")
     private WebElement url;
 

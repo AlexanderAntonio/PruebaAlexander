@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.DriverContext;
 import utils.Reporte.EstadoPrueba;
 import utils.Reporte.PdfQaNovaReports;
+import utils.Validaciones;
 
 public class QAnova {
 
@@ -22,17 +23,13 @@ public class QAnova {
     @FindBy (xpath = "(//input[@value= 'Ingresar a Demo'])")
     private WebElement btnIngresar;
 
-    WebDriverWait webDriverWait;
-
     public QAnova( ) {
         PageFactory.initElements(DriverContext.getDriver(), this);
-        webDriverWait = new WebDriverWait(DriverContext.getDriver(), 30);
     }
 
     public void validarDespliegueLogin(){
-        webDriverWait.until(ExpectedConditions.visibilityOf(inputUsuario));
-        webDriverWait.until(ExpectedConditions.visibilityOf(inputContra));
-        PdfQaNovaReports.addWebReportImage("Despliegue Login","Pagina login desplegada correctamente", EstadoPrueba.PASSED,false);
+    Validaciones.validarObjeto(inputUsuario, "Input usuario");
+    Validaciones.validarObjeto(inputContra, "Input clave");
     }
 
     public void ingresarUsuario(String usuario) {
@@ -45,8 +42,7 @@ public class QAnova {
     }
 
     public void clickBtnIngresar(){
-        webDriverWait.until(ExpectedConditions.visibilityOf(btnIngresar));
-        PdfQaNovaReports.addWebReportImage("Datos Login","Campo usario y contraseña completados", EstadoPrueba.PASSED,false);
+        Validaciones.validarObjeto(btnIngresar, "Boton Ingresar");
         btnIngresar.click();
     }
 

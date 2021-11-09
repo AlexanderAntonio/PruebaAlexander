@@ -218,7 +218,7 @@ public class PdfQaNovaReports {
             SimpleDateFormat formatterTime = new SimpleDateFormat("HH:mm:ss");
             parrafo = new Paragraph();
             parrafo.setFont(normalFont);
-            parrafo.add("\n Fecha Ejecución: " + formatterDay.format(startDate));
+            parrafo.add("\n Fecha Ejecuci\u00f3n: " + formatterDay.format(startDate));
             parrafo.setAlignment(2);
             parrafo.setSpacingAfter(5.0F);
             document.add(parrafo);

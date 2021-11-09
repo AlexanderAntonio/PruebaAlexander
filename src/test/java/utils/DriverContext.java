@@ -14,6 +14,7 @@ public class DriverContext {
         setAmbienteURL(ambURL);
         System.out.println("driver context");
         driverManager.resolveDriver(nav, ambURL);
+
    }
 
     public static String getAmbienteURL() {

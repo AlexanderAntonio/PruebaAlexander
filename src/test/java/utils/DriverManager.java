@@ -8,6 +8,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 public class DriverManager {
@@ -15,6 +16,7 @@ public class DriverManager {
     private WebDriver webDriver;
     private File root = new File("driverNavegador");
     private String extensionDriver = "";
+    String rutaDescarga = ReadProperties.readFromConfig("propiedades.properties").getProperty("rutaDescarga");
 
     public void resolveDriver(Navegador nav, String ambURL) {
         String os = System.getProperty("os.name").toLowerCase();
@@ -29,8 +31,10 @@ public class DriverManager {
                 System.out.println("Se selecciona Chrome");
                 ChromeOptions options = new ChromeOptions();
                 Map<String, Object> prefs = new HashMap<String, Object>();
-                prefs.put("profile.default_content_settings.popups", 0);
-                prefs.put("download.default_directory", ReadProperties.readFromConfig("propiedades.properties").get("directorioDescargas"));
+                prefs.put("plugins.plugins_disabled", new String[] {"Chrome PDF Viewer"});
+                prefs.put("plugins.always_open_pdf_externally", true);
+                //prefs.put("profile.default_content_settings.popups", 0);
+                prefs.put("download.default_directory", rutaDescarga);
                 options.setExperimentalOption("prefs", prefs);
                 options.addArguments("--disable-notifications");
                 driverPath = new File(root, "chromedriver"+extensionDriver);
@@ -52,4 +56,5 @@ public class DriverManager {
     public void closeDriver(){
         webDriver.close();
     }
+
 }
