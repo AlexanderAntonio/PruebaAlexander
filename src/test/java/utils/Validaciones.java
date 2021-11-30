@@ -1,15 +1,23 @@
 package utils;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import page.CargaQaNova;
+import page.Farmacia;
+import page.GoogleMap;
 import page.MatrizQaNova;
 import utils.Reporte.EstadoPrueba;
 import utils.Reporte.PdfQaNovaReports;
 
-import java.io.File;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -198,6 +206,35 @@ public class Validaciones {
             System.out.println("Archivo cargado correctamente");
         }else {
             System.out.println("El archivo no se pudo cargar correctamente");
+        }
+    }
+
+    public static void validarFarmacia(WebElement webElement) throws IOException {
+        GoogleMap googleMap  = new GoogleMap();
+        String url = "https://farmanet.minsal.cl/index.php/ws/getLocalesTurnos";
+        InputStream is = new URL(url).openStream();
+        Gson gson = new Gson();
+        String fichero = "";
+        try(BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")))){
+            String lineas;
+            while ((lineas = rd.readLine()) != null){
+                fichero = fichero + lineas;
+            }
+            Type listadoFarmacias = new TypeToken<List<Farmacia>>(){}.getType();
+            List<Farmacia> farmacias = gson.fromJson(fichero, listadoFarmacias);
+
+            String lat = farmacias.get(1).local_lat;
+            String log = farmacias.get(1).local_lng;
+            String nombre = farmacias.get(1).local_nombre;
+            String direccion = farmacias.get(1).local_direccion;
+            webElement.sendKeys(lat,",",log);
+
+            googleMap.clickBtnBuscarMapa();
+
+            PdfQaNovaReports.addWebReportImage("Busqueda de Farmacia en GoogleMap ", "Farmacia llamada: "+ nombre+ "\nDirecci\u00f3n: "+direccion+"", EstadoPrueba.PASSED, false);
+
+        } catch (IOException | InterruptedException e){
+            e.printStackTrace();
         }
     }
 }
